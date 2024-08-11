@@ -29,3 +29,6 @@ WHEN I refresh the page
 THEN the saved tasks persist
 
 ## Links
+Deployed Link: https://catdelaney.github.io/Task-Manager/
+
+GitHub Repo: https://github.com/catdelaney/Task-Manager
