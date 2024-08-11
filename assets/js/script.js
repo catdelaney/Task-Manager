@@ -15,6 +15,27 @@ function generateTaskId() {
 
 // TODO: create a function to create a task card
 function createTaskCard(task) {
+    let taskCard = $('<div>');
+    taskCard.addClass("draggable task-card border border-dark m-4");
+    // Add color based on due date
+    let dueDate = dayjs(task.taskDueDate)
+    let currentDate = dayjs();
+    let daysDifference = dueDate.diff(currentDate, 'day');
+    if (daysDifference < 0) {
+        taskCard.addClass('bg-danger');
+    } else if (daysDifference <= 5) {
+        taskCard.addClass('bg-warning');
+    } else {
+        taskCard.addClass('bg-light')
+    }
+    taskCard.attr("data-task-id",task.taskId);
+    let taskTitle = $('<h1>').text(task.taskTitle);
+    let taskDueDate = $('<h5>').text(task.taskDueDate);
+    let taskDescription = $('<h3>').text(task.taskDescription);
+    let taskDelete = $('<button>').text('delete').attr("data-task-id",task.taskId);
+    taskDelete.on('click',handleDeleteTask);
+    taskCard.append(taskTitle, taskDueDate, taskDescription, taskDelete)
+    return taskCard;
 }
 
 // TODO: create a function to render the task list and make cards draggable
@@ -23,22 +44,12 @@ function renderTaskList() {
     inProgressCard.empty();
     doneCard.empty();
     taskList.forEach(task => {
-        let taskCard = $('<div>');
-        taskCard.addClass("draggable task-card border border-dark m-4");
-        taskCard.attr("data-task-id",task.taskId);
-        let taskTitle = $('<h1>').text(task.taskTitle);
-        let taskDueDate = $('<h5>').text(task.taskDueDate);
-        let taskDescription = $('<h3>').text(task.taskDescription);
-        let taskDelete = $('<button>').text('delete').attr("data-task-id",task.taskId);
-        taskDelete.on('click',handleDeleteTask);
-        taskCard.append(taskTitle, taskDueDate, taskDescription, taskDelete)
+        let taskCard = createTaskCard(task);
         if (task.taskStatus === "to-do") {
             toDoCard.append(taskCard)
-        }
-        else if (task.taskStatus === "in-progress") {
+        } else if (task.taskStatus === "in-progress") {
             inProgressCard.append(taskCard)
-        }
-        else if (task.taskStatus === "done") {
+        } else if (task.taskStatus === "done") {
             doneCard.append(taskCard)
         }
         $(".draggable").draggable({zIndex: 100});
