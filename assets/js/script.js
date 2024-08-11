@@ -29,9 +29,9 @@ function createTaskCard(task) {
         taskCard.addClass('bg-light')
     }
     taskCard.attr("data-task-id",task.taskId);
-    let taskTitle = $('<h1>').text(task.taskTitle);
-    let taskDueDate = $('<h5>').text(task.taskDueDate);
-    let taskDescription = $('<h3>').text(task.taskDescription);
+    let taskTitle = $('<h3>').text(task.taskTitle);
+    let taskDueDate = $('<h8>').text(task.taskDueDate);
+    let taskDescription = $('<h6>').text(task.taskDescription);
     let taskDelete = $('<button>').text('delete').attr("data-task-id",task.taskId);
     taskDelete.on('click',handleDeleteTask);
     taskCard.append(taskTitle, taskDueDate, taskDescription, taskDelete)
